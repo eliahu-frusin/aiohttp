@@ -260,6 +260,13 @@ class TestPartReader:
             with pytest.raises(ValueError, match="malformed"):
                 await obj.read()
 
+    async def test_read_chunk_with_zero_content_length(self) -> None:
+        h = HeadersDictProxy(CIMultiDict({"CONTENT-LENGTH": "0"}))
+
+        with Stream(b"\r\n--" + BOUNDARY) as stream:
+            obj = aiohttp.BodyPartReader(BOUNDARY, h, stream)
+            assert await obj.read_chunk(1) == b""
+
     async def test_read_boundary_with_incomplete_chunk(self) -> None:
         with Stream(b"") as stream:
 

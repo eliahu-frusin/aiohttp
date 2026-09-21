@@ -1,0 +1,2 @@
+Fixed ``BodyPartReader.read_chunk()`` raising an ``AssertionError`` for a
+multipart body part with ``Content-Length: 0`` -- by :user:`eliahu-frusin`.
